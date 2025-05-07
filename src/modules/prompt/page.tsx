@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { domainOptions, IPromptForm, modelOptions } from "./model";
-import { Button, SelectInput, TextInput } from "@/components";
+import { Button, SelectInput, TextInput, CopyButton } from "@/components";
 import { usePromptRefinerState } from "./context";
 
 const initialValues: IPromptForm = {
@@ -32,7 +31,6 @@ export const PromptRefinerPage = () => {
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Input Panel */}
         <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
           <h2 className="text-xl font-semibold mb-4 text-gray-700">
             Enter Raw Prompt
@@ -95,14 +93,16 @@ export const PromptRefinerPage = () => {
           </Formik>
         </div>
 
-        {/* Output Panel */}
         <div className="bg-gray-50 p-6 rounded-2xl shadow-md border border-gray-200 min-h-[300px]">
           <h2 className="text-xl font-semibold mb-4 text-gray-700">
             Refined Prompt
           </h2>
           {prompt ? (
-            <div className="whitespace-pre-wrap text-gray-800 leading-relaxed text-sm">
-              {prompt}
+            <div>
+              <div className="whitespace-pre-wrap text-gray-800 leading-relaxed text-sm">
+                {prompt}
+              </div>
+              <CopyButton text={prompt} />
             </div>
           ) : (
             <p className="text-gray-400 italic">
