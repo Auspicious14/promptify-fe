@@ -1,53 +1,77 @@
+import { Button } from "@/components";
+import { useRouter } from "next/navigation";
 import React from "react";
+import { useAuth } from "../auth/context";
 export const HomePage = () => {
-  return (
-    <section className="min-h-screen bg-white text-gray-800">
-      <div className="max-w-5xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-4xl sm:text-5xl font-bold text-primary mb-6">
-          Write Better Prompts. Get Smarter AI Responses.
-        </h1>
-        <p className="text-lg sm:text-xl mb-8">
-          Our platform helps you refine your prompts for ChatGPT, Claude, and
-          other AI models. Whether you're writing for marketing, legal,
-          education, or tech — we make your prompts clearer, sharper, and more
-          effective.
-        </p>
-        <div className="flex justify-center gap-4 flex-wrap">
-          <a
-            href="/prompt-refiner"
-            className="bg-primary text-white px-6 py-3 rounded-xl font-medium hover:opacity-90 transition"
-          >
-            Try It Now
-          </a>
-          <a
-            href="#how-it-works"
-            className="border border-primary text-primary px-6 py-3 rounded-xl font-medium hover:bg-primary hover:text-white transition"
-          >
-            Learn More
-          </a>
-        </div>
-      </div>
+  const router = useRouter();
+  const { user } = useAuth(); // Assume you have auth context
 
-      <div id="how-it-works" className="bg-gray-50 py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-6">
-            How It Works
-          </h2>
-          <p className="text-lg text-gray-600 mb-4">
-            1. Choose your preferred AI model (GPT-3.5, Claude, Groq, etc).
-          </p>
-          <p className="text-lg text-gray-600 mb-4">
-            2. Select your domain (e.g. technical, legal, education).
-          </p>
-          <p className="text-lg text-gray-600 mb-4">
-            3. Paste your prompt — we’ll refine it using context-aware
-            algorithms.
-          </p>
-          <p className="text-lg text-gray-600 mb-4">
-            4. Copy and send the enhanced prompt to your LLM of choice.
-          </p>
+  const handleTryNow = () => {
+    if (!user) return router.push("/auth/register");
+    router.push("/refine");
+  };
+
+  return (
+    <div className="space-y-20">
+      <section className="text-center py-20 px-4 bg-gradient-to-b from-blue-50 to-white">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          Craft Better Prompts. Get Smarter Results.
+        </h1>
+        <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-6">
+          Use AI to refine your prompts for GPT, Claude, OpenRouter, and more —
+          so you can get exactly what you want.
+        </p>
+        <div className="flex justify-center gap-4">
+          <Button onClick={handleTryNow}>Try It Now</Button>
+          <Button
+            variant="secondary"
+            onClick={() => router.push("/auth/register")}
+          >
+            Create Account
+          </Button>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section className="max-w-4xl mx-auto px-4 text-center">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-4">
+          Why Prompt Refinement?
+        </h2>
+        <p className="text-gray-600 mb-6">
+          Most users don’t get accurate responses from AI because they don’t
+          know how to prompt well. Our platform uses intelligent strategies to
+          help you craft high-quality prompts that work.
+        </p>
+      </section>
+
+      <section className="bg-gray-50 py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">Upgrade for More Power</h2>
+          <p className="text-gray-600 mb-6">
+            Free users get 5 prompt refinements per day. Upgrade to Pro for
+            unlimited access and priority processing.
+          </p>
+          <div className="flex justify-center gap-6 mt-6 flex-wrap">
+            <div className="bg-white shadow-md p-6 rounded-xl w-64">
+              <h3 className="text-xl font-semibold mb-2">Free</h3>
+              <p className="text-gray-500 mb-4">5 prompts/day</p>
+              <Button onClick={() => router.push("/auth/register")}>
+                Get Started
+              </Button>
+            </div>
+            <div className="bg-blue-600 text-white shadow-lg p-6 rounded-xl w-64">
+              <h3 className="text-xl font-semibold mb-2">Pro</h3>
+              <p className="mb-4">Unlimited prompts, fast response</p>
+              <Button
+                variant="white"
+                size="md"
+                onClick={() => router.push("/pricing")}
+              >
+                Subscribe Now
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 };

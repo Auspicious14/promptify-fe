@@ -4,8 +4,12 @@ export interface IPromptForm {
   domain: string;
 }
 
-export interface IRefinedResponse {
-  refinedPrompt: string;
+export interface IPrompt {
+  _id: string;
+  userId: string;
+  prompt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const modelOptions = [

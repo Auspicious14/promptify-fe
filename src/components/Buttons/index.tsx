@@ -3,7 +3,13 @@ import { clsx } from "clsx";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import React from "react";
 
-type TVariant = "primary" | "secondary" | "outline" | "danger" | "transparent";
+type TVariant =
+  | "primary"
+  | "secondary"
+  | "outline"
+  | "danger"
+  | "transparent"
+  | "white";
 type TSize = "sm" | "md" | "lg";
 
 interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -28,6 +34,7 @@ export const Button: FC<IButtonProps> = ({
     outline: "border-2 border-primary text-primary hover:bg-primary/10",
     transparent: "border-none text-primary hover:bg-primary/10",
     danger: "border-2 border-red-500 text-red-600 hover:bg-red-50",
+    white: "bg-white text-primary border-2 border-primary hover:bg-primary/10",
   };
 
   const sizeStyles = {

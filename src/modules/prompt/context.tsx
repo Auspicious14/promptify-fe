@@ -1,12 +1,13 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { IPromptForm } from "./model";
+import { IPrompt, IPromptForm } from "./model";
 import { AxiosClient } from "@/components";
 import toast from "react-hot-toast";
 
 interface IPromptContext {
   isLoading: boolean;
+  prompts: IPrompt[];
   prompt: string;
   refinePrompt: (values: IPromptForm) => Promise<{ refinedPrompt: string }>;
 }
@@ -31,13 +32,14 @@ export const PromptRefinerContextProvider = ({
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [prompt, setPrompt] = useState<string>("");
+  const [prompts, setPrompts] = useState<IPrompt[]>([]);
   const refinePrompt = async (values: IPromptForm) => {
     setIsLoading(true);
     try {
-      const response = await AxiosClient.post("/api/refine", values);
+      const response = await AxiosClient.post("/refine-prompt", values);
       const data = response.data?.data;
       if (data) {
-        setPrompt(data.refinedPrompt);
+        setPrompt(data.prompt);
         return data;
       }
       return null;
@@ -48,8 +50,27 @@ export const PromptRefinerContextProvider = ({
     }
   };
 
+  const getPrompts = async () => {
+    setIsLoading(true);
+    try {
+      const response = await AxiosClient.get("/prompts");
+      const data = response.data?.data;
+      if (data) {
+        setPrompts(data);
+        return data;
+      }
+      return null;
+    } catch (error: any) {
+      toast.error("Error getting prompts.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <PromptRefinerContext.Provider value={{ isLoading, prompt, refinePrompt }}>
+    <PromptRefinerContext.Provider
+      value={{ isLoading, prompt, prompts, refinePrompt }}
+    >
       {children}
     </PromptRefinerContext.Provider>
   );
