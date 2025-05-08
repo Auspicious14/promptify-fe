@@ -46,10 +46,15 @@ export const modelOptions = [
 
 export const domainOptions = [
   { label: "General", value: "general" },
+  { label: "Writing", value: "writing" },
   { label: "Marketing", value: "marketing" },
-  { label: "Technical", value: "technical" },
+  { label: "Technical", value: "coding" },
+  { label: "Design", value: "design"},
   { label: "Legal", value: "legal" },
   { label: "Education", value: "education" },
-  { label: "Medical", value: "medical" },
-  { label: "Finance", value: "finance" },
+  { label: "Medical", value: "healthcare" },
+  { label: "Business", value: "business" },
+  { label: "Creative Arts", value: "creative_arts" },
+  { label: "Data Analysis", value: "data_analysis" },
+  { label: "Research", value: "research" }
 ];
