@@ -14,7 +14,7 @@ const initialValues: IPromptForm = {
 
 const validationSchema = Yup.object({
   prompt: Yup.string().required("Prompt is required"),
-  model: Yup.string().required("Model is required"),
+  llm: Yup.string().required("Model is required"),
   domain: Yup.string().required("Domain is required"),
 });
 export const PromptRefinerPage = () => {
@@ -60,7 +60,7 @@ export const PromptRefinerPage = () => {
                     options={modelOptions}
                   />
                   <ErrorMessage
-                    name="model"
+                    name="llm"
                     component="div"
                     className="text-sm text-red-500 mt-1"
                   />
