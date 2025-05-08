@@ -1,5 +1,11 @@
 "use client";
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { FormikHelpers } from "formik";
 import { AxiosClient } from "../../components";
 import toast from "react-hot-toast";
@@ -9,19 +15,21 @@ export interface AuthContextType {
   user: any;
   isLoading: boolean;
   error: string | null;
+  authStatus: "authenticated" | "unauthenticated";
   signUp: (values: any, actions: FormikHelpers<any>) => Promise<void>;
   signIn: (values: any, actions: FormikHelpers<any>) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  isLoading: false,
-  error: null,
-  signUp: async () => {},
-  signIn: async () => {},
-  forgotPassword: async () => {},
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthContextProvider");
+  }
+  return context;
+};
 
 export const AuthContextProvider = ({
   children,
@@ -32,7 +40,28 @@ export const AuthContextProvider = ({
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const [authStatus, setAuthStatus] = useState<
+    "authenticated" | "unauthenticated"
+  >("unauthenticated");
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/auth/check", { credentials: "include" });
+        const data = await res.json();
+        if (data.authenticated) {
+          console.log({ data });
+          setAuthStatus("authenticated");
+        } else {
+          setAuthStatus("unauthenticated");
+          setUser(null);
+        }
+      } catch (err) {
+        setAuthStatus("unauthenticated");
+        setUser(null);
+      }
+    };
+    checkAuth();
+  }, []);
   const handleAuthRequest = async (
     url: string,
     values: any,
@@ -42,8 +71,12 @@ export const AuthContextProvider = ({
     setError(null);
     try {
       const response = await AxiosClient.post(url, values);
-      if (response?.data) {
-        setUser(response.data);
+      const data = response.data?.data;
+      if (data) {
+        if (type === "signin") {
+          localStorage.setItem("token", data.token);
+          setUser(response.data);
+        }
         toast.success("Success!");
         router.push(type === "signup" ? "/signin" : `/`);
       }
@@ -85,11 +118,17 @@ export const AuthContextProvider = ({
 
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, error, signUp, signIn, forgotPassword }}
+      value={{
+        authStatus,
+        user,
+        isLoading,
+        error,
+        signUp,
+        signIn,
+        forgotPassword,
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);

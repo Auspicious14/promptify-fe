@@ -6,10 +6,10 @@ import { useAuth } from "../auth/context";
 import { PricingComponent } from "../pricing/components/pricing";
 export const HomePage = () => {
   const router = useRouter();
-  const { user } = useAuth();
+  const { authStatus } = useAuth();
 
   const handleTryNow = () => {
-    if (!user) return router.push("/signup");
+    if (authStatus === "unauthenticated") return router.push("/signup");
     router.push("/prompt");
   };
 
@@ -25,9 +25,11 @@ export const HomePage = () => {
         </p>
         <div className="flex justify-center gap-4">
           <Button onClick={handleTryNow}>Try It Now</Button>
-          <Button variant="secondary" onClick={() => router.push("/signup")}>
-            Create Account
-          </Button>
+          {authStatus === "unauthenticated" && (
+            <Button variant="secondary" onClick={() => router.push("/signup")}>
+              Create Account
+            </Button>
+          )}
         </div>
       </section>
 

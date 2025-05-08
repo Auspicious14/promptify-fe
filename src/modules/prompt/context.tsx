@@ -9,7 +9,7 @@ interface IPromptContext {
   isLoading: boolean;
   prompts: IPrompt[];
   prompt: string;
-  refinePrompt: (values: IPromptForm) => Promise<{ refinedPrompt: string }>;
+  refinePrompt: (values: IPromptForm) => Promise<any>;
 }
 
 const PromptRefinerContext = createContext<IPromptContext | undefined>(
@@ -44,6 +44,7 @@ export const PromptRefinerContextProvider = ({
       }
       return null;
     } catch (error: any) {
+      console.log("error", error);
       toast.error("Error refining prompt.");
     } finally {
       setIsLoading(false);

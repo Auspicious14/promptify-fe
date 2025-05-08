@@ -20,13 +20,9 @@ export const CopyButton = ({ text }: Props) => {
   return (
     <Button
       onClick={handleCopy}
-      className="flex items-center gap-1 text-sm text-primary hover:underline focus:outline-none"
+      className="flex items-center gap-1 text-sm text-primary hover:underline focus:outline-none mt-2"
+      icon={copied ? CheckIcon : DocumentDuplicateIcon}
     >
-      {copied ? (
-        <CheckIcon className="w-4 h-4" />
-      ) : (
-        <DocumentDuplicateIcon className="w-4 h-4" />
-      )}
       {copied ? "Copied" : "Copy"}
     </Button>
   );
