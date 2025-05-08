@@ -8,7 +8,7 @@ import { usePromptRefinerState } from "./context";
 
 const initialValues: IPromptForm = {
   prompt: "",
-  model: "gpt-3.5",
+  llm: "mistral",
   domain: "general",
 };
 
@@ -56,7 +56,7 @@ export const PromptRefinerPage = () => {
                 <div>
                   <SelectInput
                     label="Choose LLM"
-                    name="model"
+                    name="llm"
                     options={modelOptions}
                   />
                   <ErrorMessage
