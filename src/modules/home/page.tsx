@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -8,8 +9,8 @@ export const HomePage = () => {
   const { user } = useAuth();
 
   const handleTryNow = () => {
-    if (!user) return router.push("/auth/register");
-    router.push("/refine");
+    if (!user) return router.push("/signup");
+    router.push("/prompt");
   };
 
   return (
@@ -24,10 +25,7 @@ export const HomePage = () => {
         </p>
         <div className="flex justify-center gap-4">
           <Button onClick={handleTryNow}>Try It Now</Button>
-          <Button
-            variant="secondary"
-            onClick={() => router.push("/auth/register")}
-          >
+          <Button variant="secondary" onClick={() => router.push("/signup")}>
             Create Account
           </Button>
         </div>

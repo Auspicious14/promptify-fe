@@ -1,3 +1,4 @@
+"use client";
 import { AxiosClient } from "@/components";
 import { createContext, useContext, useEffect, useState } from "react";
 

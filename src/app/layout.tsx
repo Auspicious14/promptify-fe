@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${poppins.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased`}>
         <AppContextProvider>{children}</AppContextProvider>
       </body>
     </html>

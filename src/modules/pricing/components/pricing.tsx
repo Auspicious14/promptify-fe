@@ -11,18 +11,14 @@ interface IPricingPlan {
 
 const pricingPlans: IPricingPlan[] = [
   {
-    name: "Basic",
-    price: "$9.99/month",
-    features: [
-      "Access to prompt refining",
-      "Limited usage per day",
-      "Basic support",
-    ],
+    name: "Free",
+    price: "$0/month",
+    features: ["Access to prompt refining", "3 usage per day", "Basic support"],
     buttonText: "Start Free Trial",
   },
   {
     name: "Premium",
-    price: "$19.99/month",
+    price: "$1.99/month",
     features: [
       "Access to prompt refining",
       "Unlimited usage",
@@ -30,17 +26,6 @@ const pricingPlans: IPricingPlan[] = [
       "Advanced LLMs",
     ],
     buttonText: "Get Premium",
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    features: [
-      "Custom prompt tailoring",
-      "Dedicated support",
-      "API Access",
-      "Enterprise-grade solutions",
-    ],
-    buttonText: "Contact Us",
   },
 ];
 
