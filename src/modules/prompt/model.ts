@@ -4,6 +4,8 @@ export interface IPromptForm {
   domain: string;
 }
 type LLM =
+  | "default"
+  | "premium"
   | "mistral"
   | "grok"
   | "cinematika"
@@ -16,7 +18,8 @@ type LLM =
   | "qwen"
   | "deepseek"
   | "gemini"
-  | "amazon";
+  | "amazon"
+  | "gpt-4";
 export interface IPrompt {
   _id: string;
   userId: string;
