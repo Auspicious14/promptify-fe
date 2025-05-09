@@ -49,7 +49,6 @@ export const AuthContextProvider = ({
         const res = await AxiosClient.get("/auth/check");
         const data = res.data;
         if (data.authenticated) {
-          console.log({ data });
           setAuthStatus("authenticated");
           setUser(data.data);
         } else {
