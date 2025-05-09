@@ -9,8 +9,12 @@ export const HomePage = () => {
   const { authStatus } = useAuth();
 
   const handleTryNow = () => {
-    if (authStatus === "unauthenticated") return router.push("/signup");
-    router.push("/prompt");
+    console.log({ authStatus });
+    if (authStatus === "unauthenticated") {
+      router.push("/signup");
+    } else {
+      router.push("/prompt");
+    }
   };
 
   return (
