@@ -78,7 +78,8 @@ export const AuthContextProvider = ({
           setUser(response.data);
         }
         toast.success("Success!");
-        router.push(type === "signup" ? "/signin" : `/`);
+        window.location.href = type === "signup" ? "/signin" : `/`;
+        // router.push(type === "signup" ? "/signin" : `/`);
       }
     } catch (err: any) {
       setError(err.response?.data?.message || "An error occurred");
