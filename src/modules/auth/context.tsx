@@ -46,11 +46,12 @@ export const AuthContextProvider = ({
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch("/api/auth/check", { credentials: "include" });
-        const data = await res.json();
+        const res = await AxiosClient.get("/auth/check");
+        const data = res.data;
         if (data.authenticated) {
           console.log({ data });
           setAuthStatus("authenticated");
+          setUser(data.data);
         } else {
           setAuthStatus("unauthenticated");
           setUser(null);
@@ -75,7 +76,6 @@ export const AuthContextProvider = ({
       if (data) {
         if (type === "signin") {
           localStorage.setItem("token", data.token);
-          setUser(response.data);
         }
         toast.success("Success!");
         window.location.href = type === "signup" ? "/signin" : `/`;
