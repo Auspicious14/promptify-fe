@@ -6,7 +6,8 @@ import React from "react";
 const Prompt = async () => {
   const cookie = await cookies();
   const token = cookie.get("token")?.value;
-  console.log("token", token);
+  console.log({ cookie });
+  console.log({ token });
   if (!token) {
     redirect("/signin");
   }
