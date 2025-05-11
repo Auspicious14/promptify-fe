@@ -29,7 +29,15 @@ const pricingPlans: IPricingPlan[] = [
   },
 ];
 
-export const PricingComponent: React.FC = () => {
+interface IProps {
+  loading: boolean;
+  onSubscribe: (name: string) => void;
+}
+
+export const PricingComponent: React.FC<IProps> = ({
+  loading,
+  onSubscribe,
+}) => {
   return (
     <section className="py-16 bg-gray-100">
       <div className="max-w-7xl mx-auto text-center">
@@ -50,7 +58,14 @@ export const PricingComponent: React.FC = () => {
                   <li key={i}>{feature}</li>
                 ))}
               </ul>
-              <Button variant="primary" size="lg" className="w-full">
+              <Button
+                isLoading={loading}
+                disabled={loading}
+                onClick={() => onSubscribe(plan.name)}
+                variant="primary"
+                size="lg"
+                className="w-full"
+              >
                 {plan.buttonText}
               </Button>
             </div>

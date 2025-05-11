@@ -1,10 +1,11 @@
 "use client";
 import { AxiosClient } from "@/components";
 import { createContext, useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface IPricingContext {
   isLoading: boolean;
-  subscribe: (planId: string) => Promise<void>;
+  subscribe: (plan: string) => Promise<void>;
 }
 
 const PricingContext = createContext<IPricingContext | null>(null);
@@ -22,11 +23,12 @@ export const PricingContextProvider = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const subscribe = async (planId: string) => {
+  const subscribe = async (plan: string) => {
     try {
-      const response = await AxiosClient.post("/subscribe", { planId });
+      const response = await AxiosClient.post("/subscribe", { plan });
       const data = response.data;
       if (data.success) {
+        toast.success("Subscribed successfully!");
         return data;
       }
     } catch (error) {
