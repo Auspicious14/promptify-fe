@@ -1,11 +1,13 @@
 "use client";
 import { AxiosClient } from "@/components";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface IPricingContext {
   isLoading: boolean;
-  subscribe: (plan: string) => Promise<void>;
+  subscribe: (plan: string) => Promise<any>;
+  verifyPayment: (reference: string) => Promise<any>;
 }
 
 const PricingContext = createContext<IPricingContext | null>(null);
@@ -21,15 +23,22 @@ export const PricingContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [payment, setPayment] = useState<any>();
 
   const subscribe = async (plan: string) => {
+    setIsLoading(true);
     try {
       const response = await AxiosClient.post("/subscribe", { plan });
       const data = response.data;
       if (data.success) {
         toast.success("Subscribed successfully!");
-        return data;
+        window.location.href = data?.data?.authorization_url;
+
+        setPayment(data?.data);
+        // router.push(`/verify-payment/${data?.data?.reference}`);
+        return data.data;
       }
     } catch (error) {
       console.error("Subscription failed:", error);
@@ -38,8 +47,28 @@ export const PricingContextProvider = ({
     }
   };
 
+  const verifyPayment = async (reference: string) => {
+    setIsLoading(true);
+    try {
+      const response = await AxiosClient.get("/verify", {
+        params: { reference },
+      });
+      const data = response.data;
+      if (data.success) {
+        toast.success("Payment verified successfully!");
+        router.push("/prompt");
+        return data;
+      }
+    } catch (error) {
+      toast.error("Payment verification failed.");
+      console.error("Subscription failed:", error);
+      router.push("/pricing");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
-    <PricingContext.Provider value={{ isLoading, subscribe }}>
+    <PricingContext.Provider value={{ isLoading, subscribe, verifyPayment }}>
       {children}
     </PricingContext.Provider>
   );
