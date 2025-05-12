@@ -45,7 +45,8 @@ export const PromptRefinerContextProvider = ({
       return null;
     } catch (error: any) {
       console.log("error", error);
-      toast.error("Error refining prompt.");
+      const errorMessage = error?.response?.data?.message;
+      toast.error(errorMessage || "Error refining prompt.");
     } finally {
       setIsLoading(false);
     }

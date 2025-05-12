@@ -16,9 +16,14 @@ export interface AuthContextType {
   isLoading: boolean;
   error: string | null;
   authStatus: "authenticated" | "unauthenticated";
+  usage: {
+    remaining: number;
+    count: number;
+  } | null;
   signUp: (values: any, actions: FormikHelpers<any>) => Promise<void>;
   signIn: (values: any, actions: FormikHelpers<any>) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
+  fetchUsage: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,6 +48,11 @@ export const AuthContextProvider = ({
   const [authStatus, setAuthStatus] = useState<
     "authenticated" | "unauthenticated"
   >("unauthenticated");
+  const [usage, setUsage] = useState<{
+    remaining: number;
+    count: number;
+  } | null>(null);
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -116,6 +126,18 @@ export const AuthContextProvider = ({
     }
   }, []);
 
+  const fetchUsage = async () => {
+    const res = await AxiosClient.get("/trialUsage");
+    const data = res.data;
+    if (data) {
+      setUser((prevUser: any) => ({
+        ...prevUser,
+        usage: data.usage,
+      }));
+    }
+    setUsage({ remaining: data.remaining, count: data.count });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -123,9 +145,11 @@ export const AuthContextProvider = ({
         user,
         isLoading,
         error,
+        usage,
         signUp,
         signIn,
         forgotPassword,
+        fetchUsage,
       }}
     >
       {children}

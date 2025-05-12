@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { AppContextProvider } from "@/context";
+import { useAuth } from "@/modules/auth/context";
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const poppins = Poppins({
@@ -20,6 +22,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { fetchUsage } = useAuth();
+
+  useEffect(() => {
+    fetchUsage();
+  }, []);
+
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
