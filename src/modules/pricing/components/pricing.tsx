@@ -61,7 +61,7 @@ export const PricingComponent: React.FC<IProps> = ({
               <Button
                 isLoading={loading}
                 disabled={loading}
-                onClick={() => onSubscribe(plan.name)}
+                onClick={() => onSubscribe(plan.name.toLowerCase)}
                 variant="primary"
                 size="lg"
                 className="w-full"
