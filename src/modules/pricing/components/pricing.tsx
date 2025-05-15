@@ -73,7 +73,7 @@ export const PricingComponent: React.FC<IProps> = ({
               <Button
                 isLoading={loading}
                 disabled={loading}
-                onClick={() => handleSelectPlan(plan.name)}
+                onClick={() => handlePlanSelect(plan.name)}
                 variant="primary"
                 size="lg"
                 className="w-full"
