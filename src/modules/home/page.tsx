@@ -52,7 +52,7 @@ export const HomePage = () => {
   )
 )}
           {authStatus === "unauthenticated" && (
-            <Button variant="secondary" onClick={() => router.push("/signup") >
+            <Button variant="secondary" onClick={() => router.push("/signup")} >
               Create Account
             </Button>
           )}
