@@ -27,7 +27,6 @@ export const HomePage = () => {
     toast.success("Subscribed successfully!");
   };
 
-console.log({usage})
   return (
     <div className="space-y-20">
       <section className="text-center py-20 px-4 bg-gradient-to-b from-blue-50 to-white">
@@ -43,7 +42,7 @@ console.log({usage})
   usage && usage?.count < 3 ? (
     <Button onClick={handleTryNow}>Try It Now</Button>
   ) : (
-    <div className="flex flex-col items-start space-y-2">
+    <div className="flex flex-col items-center justify-center space-y-2">
       <p className="text-red-500">You’ve used your 3 free trials. Come back tomorrow or upgrade to Premium.</p>
       <Button variant="primary" onClick={() => handleSubscribe("premium")}>
         Get Premium
