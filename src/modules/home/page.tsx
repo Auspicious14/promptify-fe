@@ -27,7 +27,7 @@ export const HomePage = () => {
     toast.success("Subscribed successfully!");
   };
 
-
+console.log({usage})
   return (
     <div className="space-y-20">
       <section className="text-center py-20 px-4 bg-gradient-to-b from-blue-50 to-white">
@@ -40,7 +40,7 @@ export const HomePage = () => {
         </p>
         <div className="flex justify-center gap-4">
           {authStatus === "authenticated" && (
-  usage?.count < 3 ? (
+  usage && usage?.count < 3 ? (
     <Button onClick={handleTryNow}>Try It Now</Button>
   ) : (
     <div className="flex flex-col items-start space-y-2">
