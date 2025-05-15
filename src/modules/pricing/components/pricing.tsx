@@ -1,6 +1,7 @@
-// components/Pricing.tsx
+"use client"
 import { Button } from "@/components";
 import React from "react";
+import { useRouter } from 'next/navigation';
 
 interface IPricingPlan {
   name: string;
@@ -38,6 +39,17 @@ export const PricingComponent: React.FC<IProps> = ({
   loading,
   onSubscribe,
 }) => {
+  const router = useRouter()
+
+  const handlePlanSelect = (planName: string) => {
+  const lowerPlan = planName.toLowerCase();
+  if (lowerPlan === "free") {
+    router.push("/prompt");
+  } else {
+    onSubscribe(lowerPlan);
+  }
+};
+  
   return (
     <section className="py-16 bg-gray-100">
       <div className="max-w-7xl mx-auto text-center">
@@ -61,7 +73,7 @@ export const PricingComponent: React.FC<IProps> = ({
               <Button
                 isLoading={loading}
                 disabled={loading}
-                onClick={() => onSubscribe(plan.name.toLowerCase)}
+                onClick={() => handleSelectPlan(plan.name)}
                 variant="primary"
                 size="lg"
                 className="w-full"
