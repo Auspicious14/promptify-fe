@@ -30,13 +30,15 @@ const pricingPlans: IPricingPlan[] = [
 ];
 
 interface IProps {
-  loading: boolean;
-  onSubscribe: (name: string) => void;
+  loading?: boolean;
+  onSubscribe?: (name: string) => void;
+  OnRoute?: () => void;
 }
 
 export const PricingComponent: React.FC<IProps> = ({
   loading,
   onSubscribe,
+  OnRoute,
 }) => {
   return (
     <section className="py-16 bg-gray-100">
@@ -45,7 +47,7 @@ export const PricingComponent: React.FC<IProps> = ({
         <p className="text-lg text-gray-600 my-4">
           Choose the plan that best fits your needs
         </p>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 md:mx-60 mx-8 gap-8">
           {pricingPlans.map((plan, index) => (
             <div
               key={index}
@@ -61,7 +63,7 @@ export const PricingComponent: React.FC<IProps> = ({
               <Button
                 isLoading={loading}
                 disabled={loading}
-                onClick={() => onSubscribe(plan.name)}
+                onClick={() => (onSubscribe ? onSubscribe(plan.name) : OnRoute)}
                 variant="primary"
                 size="lg"
                 className="w-full"

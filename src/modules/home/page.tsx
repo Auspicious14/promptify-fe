@@ -9,7 +9,7 @@ export const HomePage = () => {
   const { authStatus } = useAuth();
 
   const handleTryNow = () => {
-    console.log({ authStatus });
+    // console.log({ authStatus });
     if (authStatus === "unauthenticated") {
       router.push("/signup");
     } else {
@@ -48,7 +48,7 @@ export const HomePage = () => {
         </p>
       </section>
 
-      <PricingComponent />
+      <PricingComponent OnRoute={() => router.push("/pricing")} />
     </div>
   );
 };
