@@ -1,6 +1,8 @@
 import { VerifyPayment } from "@/modules/payment/page";
 import React from "react";
 
-export const Verify = () => {
+const Verify = () => {
   return <VerifyPayment />;
 };
+
+export default Verify;
