@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from "react";
 import { Button } from "./index";
 import { CheckIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";

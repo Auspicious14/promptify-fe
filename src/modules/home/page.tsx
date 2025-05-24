@@ -2,11 +2,15 @@
 import { Button } from "@/components";
 import { useRouter } from "next/navigation";
 import React from "react";
+import toast from "react-hot-toast";
 import { useAuth } from "../auth/context";
 import { PricingComponent } from "../pricing/components/pricing";
+import { usePricingState } from "../pricing/context";
+
 export const HomePage = () => {
   const router = useRouter();
-  const { authStatus } = useAuth();
+  const { authStatus, usage } = useAuth();
+  const { isLoading, subscribe } = usePricingState();
 
   const handleTryNow = () => {
     // console.log({ authStatus });
@@ -15,6 +19,11 @@ export const HomePage = () => {
     } else {
       router.push("/prompt");
     }
+  };
+
+  const handleSubscribe = async (plan: string) => {
+    await subscribe(plan);
+    toast.success("Subscribed successfully!");
   };
 
   return (
@@ -28,7 +37,23 @@ export const HomePage = () => {
           so you can get exactly what you want.
         </p>
         <div className="flex justify-center gap-4">
-          <Button onClick={handleTryNow}>Try It Now</Button>
+          {authStatus === "authenticated" &&
+            (usage && usage?.count < 3 ? (
+              <Button onClick={handleTryNow}>Try It Now</Button>
+            ) : (
+              <div className="flex flex-col items-center justify-center space-y-2">
+                <p className="text-red-500">
+                  You’ve used your 3 free trials. Come back tomorrow or upgrade
+                  to Premium.
+                </p>
+                <Button
+                  variant="primary"
+                  onClick={() => handleSubscribe("premium")}
+                >
+                  Get Premium
+                </Button>
+              </div>
+            ))}
           {authStatus === "unauthenticated" && (
             <Button variant="secondary" onClick={() => router.push("/signup")}>
               Create Account

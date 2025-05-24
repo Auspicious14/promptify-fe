@@ -2,9 +2,11 @@
 
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {useRouter} from "next/navigation"
 import { domainOptions, IPromptForm, modelOptions } from "./model";
 import { Button, SelectInput, TextInput, CopyButton } from "@/components";
 import { usePromptRefinerState } from "./context";
+import {useAuth} from "../auth/context"
 
 const initialValues: IPromptForm = {
   prompt: "",
@@ -17,9 +19,12 @@ const validationSchema = Yup.object({
   llm: Yup.string().required("Model is required"),
   domain: Yup.string().required("Domain is required"),
 });
-export const PromptRefinerPage = () => {
-  const { isLoading, prompt, refinePrompt } = usePromptRefinerState();
 
+export const PromptRefinerPage = () => {
+  const router = useRouter()
+  const { isLoading, prompt, refinePrompt } = usePromptRefinerState();
+const {  usage } = useAuth();
+  
   const handleSubmit = async (values: IPromptForm) => {
     refinePrompt(values);
   };
@@ -79,7 +84,9 @@ export const PromptRefinerPage = () => {
                 </div>
 
                 <div className="pt-2">
-                  <Button
+                  {
+                    usage && usage.count < 3 ? (
+                      <Button
                     type="submit"
                     disabled={isSubmitting || isLoading}
                     className="w-full"
@@ -87,6 +94,15 @@ export const PromptRefinerPage = () => {
                   >
                     Refine Prompt
                   </Button>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center space-y-2">
+      <p className="text-red-500">You’ve used your 3 free trials. Come back tomorrow or upgrade to Premium.</p>
+      <Button variant="primary" onClick={() => router.push("/pricing")}>
+        Get Premium
+      </Button>
+    </div>
+                    )
+                  }
                 </div>
               </Form>
             )}
