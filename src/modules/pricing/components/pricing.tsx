@@ -45,10 +45,14 @@ export const PricingComponent: React.FC<IProps> = ({
 
   const handlePlanSelect = (planName: string) => {
     const lowerPlan = planName.toLowerCase();
-    if (lowerPlan === "free") {
-      router.push("/prompt");
+    if (OnRoute) {
+      OnRoute();
     } else {
-      onSubscribe(lowerPlan);
+      if (lowerPlan === "free") {
+        router.push("/prompt");
+      } else {
+        onSubscribe && onSubscribe(lowerPlan);
+      }
     }
   };
 

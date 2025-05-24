@@ -2,11 +2,11 @@
 
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation";
 import { domainOptions, IPromptForm, modelOptions } from "./model";
 import { Button, SelectInput, TextInput, CopyButton } from "@/components";
 import { usePromptRefinerState } from "./context";
-import {useAuth} from "../auth/context"
+import { useAuth } from "../auth/context";
 
 const initialValues: IPromptForm = {
   prompt: "",
@@ -21,10 +21,10 @@ const validationSchema = Yup.object({
 });
 
 export const PromptRefinerPage = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { isLoading, prompt, refinePrompt } = usePromptRefinerState();
-const {  usage } = useAuth();
-  
+  const { usage } = useAuth();
+
   const handleSubmit = async (values: IPromptForm) => {
     refinePrompt(values);
   };
@@ -32,7 +32,7 @@ const {  usage } = useAuth();
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800">
-        AI Prompt Refiner
+        Promptify
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -84,25 +84,38 @@ const {  usage } = useAuth();
                 </div>
 
                 <div className="pt-2">
-                  {
-                    usage && usage.count < 3 ? (
+                  {usage === null ? (
+                    <Button
+                      type="submit"
+                      disabled={true}
+                      className="w-full"
+                      // isLoading={true}
+                    >
+                      Network Error... Reload the page to continue
+                    </Button>
+                  ) : usage.count < 3 ? (
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting || isLoading}
+                      className="w-full"
+                      isLoading={isSubmitting || isLoading}
+                    >
+                      Refine Prompt
+                    </Button>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center space-y-2">
+                      <p className="text-red-500">
+                        You’ve used your 3 free trials. Come back tomorrow or
+                        upgrade to Premium.
+                      </p>
                       <Button
-                    type="submit"
-                    disabled={isSubmitting || isLoading}
-                    className="w-full"
-                    isLoading={isSubmitting || isLoading}
-                  >
-                    Refine Prompt
-                  </Button>
-                    ) : (
-                      <div className="flex flex-col items-center justify-center space-y-2">
-      <p className="text-red-500">You’ve used your 3 free trials. Come back tomorrow or upgrade to Premium.</p>
-      <Button variant="primary" onClick={() => router.push("/pricing")}>
-        Get Premium
-      </Button>
-    </div>
-                    )
-                  }
+                        variant="primary"
+                        onClick={() => router.push("/pricing")}
+                      >
+                        Get Premium
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </Form>
             )}

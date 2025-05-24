@@ -5,12 +5,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
 
-const Prompt = async () => {
-  return (
-    <PromptRefinerPage />
-    // <AuthGuard>
-    // </AuthGuard>
-  );
+const Prompt = () => {
+  return <PromptRefinerPage />;
 };
 
 export default Prompt;
