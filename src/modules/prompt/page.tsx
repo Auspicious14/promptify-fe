@@ -93,7 +93,7 @@ export const PromptRefinerPage = () => {
                     >
                       Network Error... Reload the page to continue
                     </Button>
-                  ) : usage.count < 3 ? (
+                  ) : usage.remaining <= 3 && usage.remaining >= 0 ? (
                     <Button
                       type="submit"
                       disabled={isSubmitting || isLoading}

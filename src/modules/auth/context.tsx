@@ -10,6 +10,7 @@ import { FormikHelpers } from "formik";
 import { AxiosClient } from "../../components";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { setCookie } from "../../../helper";
 
 export interface AuthContextType {
   user: any;
@@ -85,6 +86,8 @@ export const AuthContextProvider = ({
       if (data) {
         if (type === "signin") {
           localStorage.setItem("token", data.token);
+          setCookie("token", data?.token, 3);
+          setUser(data);
         }
         toast.success("Success!");
         window.location.href = type === "signup" ? "/signin" : `/`;

@@ -9,9 +9,9 @@ import { usePricingState } from "../pricing/context";
 
 export const HomePage = () => {
   const router = useRouter();
-  const { authStatus, usage } = useAuth();
+  const { authStatus, usage, user } = useAuth();
   const { isLoading, subscribe } = usePricingState();
-
+  console.log({ authStatus, user });
   const handleTryNow = () => {
     // console.log({ authStatus });
     if (authStatus === "unauthenticated") {
@@ -38,7 +38,7 @@ export const HomePage = () => {
         </p>
         <div className="flex justify-center gap-4">
           {authStatus === "authenticated" &&
-            (usage && usage?.count < 3 ? (
+            (usage && usage?.remaining <= 3 ? (
               <Button onClick={handleTryNow}>Try It Now</Button>
             ) : (
               <div className="flex flex-col items-center justify-center space-y-2">

@@ -63,7 +63,7 @@ export const PricingComponent: React.FC<IProps> = ({
         <p className="text-lg text-gray-600 my-4">
           Choose the plan that best fits your needs
         </p>
-        <div className="grid md:grid-cols-2 md:mx-60 mx-8 gap-8">
+        <div className="flex flex-col md:flex-row md:justify-center w-full gap-8">
           {pricingPlans.map((plan, index) => (
             <div
               key={index}
@@ -71,7 +71,7 @@ export const PricingComponent: React.FC<IProps> = ({
             >
               <h3 className="text-2xl font-semibold">{plan.name}</h3>
               <p className="text-xl text-primary my-4">{plan.price}</p>
-              <ul className="list-disc list-inside text-left text-gray-600 mb-4">
+              <ul className="list-disc list-inside text-left text-gray-600 mb-4 h-24">
                 {plan.features.map((feature, i) => (
                   <li key={i}>{feature}</li>
                 ))}

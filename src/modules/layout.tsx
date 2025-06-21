@@ -7,7 +7,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { fetchUsage } = useAuth();
+  const { fetchUsage, user } = useAuth();
 
   useEffect(() => {
     fetchUsage();
@@ -33,12 +33,14 @@ export default function RootLayout({
             >
               Refiner
             </Link>
-            <Link
-              href="/signin"
-              className="text-gray-700 hover:text-blue-600 transition"
-            >
-              Sign In
-            </Link>
+            {!user && (
+              <Link
+                href="/signin"
+                className="text-gray-700 hover:text-blue-600 transition"
+              >
+                Sign In
+              </Link>
+            )}
           </nav>
         </div>
       </header>
