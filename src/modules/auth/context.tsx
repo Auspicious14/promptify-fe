@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import { usePathname, useRouter } from "next/navigation";
 import { deleteCookie, setCookie } from "../../../helper";
 
+export const FREE_TRIAL_LIMIT = 3;
+
 export interface AuthContextType {
   user: any;
   isLoading: boolean;
