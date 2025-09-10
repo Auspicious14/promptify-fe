@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { domainOptions, IPromptForm, modelOptions } from "./model";
 import { Button, SelectInput, TextInput, CopyButton } from "@/components";
 import { usePromptRefinerState } from "./context";
-import { useAuth } from "../auth/context";
+import { FREE_TRIAL_LIMIT, useAuth } from "../auth/context";
 
 const initialValues: IPromptForm = {
   prompt: "",
@@ -93,7 +93,7 @@ export const PromptRefinerPage = () => {
                     >
                       Network Error... Reload the page to continue
                     </Button>
-                  ) : usage.remaining <= 3 && usage.remaining >= 0 ? (
+                  ) : usage.remaining > 0 ? (
                     <Button
                       type="submit"
                       disabled={isSubmitting || isLoading}
@@ -105,8 +105,8 @@ export const PromptRefinerPage = () => {
                   ) : (
                     <div className="flex flex-col items-center justify-center space-y-2">
                       <p className="text-red-500">
-                        You’ve used your 3 free trials. Come back tomorrow or
-                        upgrade to Premium.
+                        You’ve used your {FREE_TRIAL_LIMIT} free trials. Come
+                        back tomorrow or upgrade to Premium.
                       </p>
                       <Button
                         variant="primary"

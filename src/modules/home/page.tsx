@@ -1,30 +1,12 @@
 "use client";
 import { Button } from "@/components";
 import { useRouter } from "next/navigation";
-import React from "react";
-import toast from "react-hot-toast";
 import { useAuth } from "../auth/context";
 import { PricingComponent } from "../pricing/components/pricing";
-import { usePricingState } from "../pricing/context";
 
 export const HomePage = () => {
   const router = useRouter();
-  const { authStatus, usage, user } = useAuth();
-  const { isLoading, subscribe } = usePricingState();
-  console.log({ authStatus, user });
-  const handleTryNow = () => {
-    // console.log({ authStatus });
-    if (authStatus === "unauthenticated") {
-      router.push("/signup");
-    } else {
-      router.push("/prompt");
-    }
-  };
-
-  const handleSubscribe = async (plan: string) => {
-    await subscribe(plan);
-    toast.success("Subscribed successfully!");
-  };
+  const { authStatus } = useAuth();
 
   return (
     <div className="space-y-20">
@@ -37,26 +19,13 @@ export const HomePage = () => {
           so you can get exactly what you want.
         </p>
         <div className="flex justify-center gap-4">
-          {authStatus === "authenticated" &&
-            (usage && usage?.remaining <= 3 ? (
-              <Button onClick={handleTryNow}>Try It Now</Button>
-            ) : (
-              <div className="flex flex-col items-center justify-center space-y-2">
-                <p className="text-red-500">
-                  You’ve used your 3 free trials. Come back tomorrow or upgrade
-                  to Premium.
-                </p>
-                <Button
-                  variant="primary"
-                  onClick={() => handleSubscribe("premium")}
-                >
-                  Get Premium
-                </Button>
-              </div>
-            ))}
-          {authStatus === "unauthenticated" && (
-            <Button variant="secondary" onClick={() => router.push("/signup")}>
-              Create Account
+          {authStatus === "authenticated" ? (
+            <Button variant="primary" onClick={() => router.push("/prompt")}>
+              Go to App
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={() => router.push("/signup")}>
+              Get Started
             </Button>
           )}
         </div>

@@ -7,11 +7,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { fetchUsage, user } = useAuth();
+  const { fetchUsage, authStatus, signOut } = useAuth();
 
   useEffect(() => {
-    fetchUsage();
-  }, []);
+    if (authStatus === "authenticated") {
+      fetchUsage();
+    }
+  }, [authStatus]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col ">
@@ -33,13 +35,20 @@ export default function RootLayout({
             >
               Refiner
             </Link>
-            {!user && (
+            {authStatus === "unauthenticated" ? (
               <Link
                 href="/signin"
                 className="text-gray-700 hover:text-blue-600 transition"
               >
                 Sign In
               </Link>
+            ) : (
+              <button
+                onClick={signOut}
+                className="text-gray-700 hover:text-blue-600 transition"
+              >
+                Sign Out
+              </button>
             )}
           </nav>
         </div>

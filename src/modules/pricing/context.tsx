@@ -33,15 +33,18 @@ export const PricingContextProvider = ({
       const response = await AxiosClient.post("/subscribe", { plan });
       const data = response.data;
       if (data.success) {
-        toast.success("Subscribed successfully!");
-        window.location.href = data?.data?.authorization_url;
+        toast.success("Redirecting to payment page...");
+        window.location.href = data?.data?.authorizationUrl;
 
         setPayment(data?.data);
-        // router.push(`/verify-payment/${data?.data?.reference}`);
         return data.data;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Subscription failed:", error);
+      const errorMessage =
+        error?.response?.data?.message ||
+        "Subscription failed. Please try again.";
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

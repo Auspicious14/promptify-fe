@@ -9,7 +9,6 @@ export const PricingPage = () => {
 
   const handleSubscribe = async (plan: string) => {
     await subscribe(plan);
-    toast.success("Subscribed successfully!");
   };
 
   return (
