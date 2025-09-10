@@ -10,7 +10,7 @@ import { FormikHelpers } from "formik";
 import { AxiosClient } from "../../components";
 import toast from "react-hot-toast";
 import { usePathname, useRouter } from "next/navigation";
-import { setCookie } from "../../../helper";
+import { deleteCookie, setCookie } from "../../../helper";
 
 export interface AuthContextType {
   user: any;
@@ -23,6 +23,7 @@ export interface AuthContextType {
   } | null;
   signUp: (values: any, actions: FormikHelpers<any>) => Promise<void>;
   signIn: (values: any, actions: FormikHelpers<any>) => Promise<void>;
+  signOut: () => void;
   forgotPassword: (email: string) => Promise<void>;
   fetchUsage: () => Promise<void>;
 }
@@ -147,6 +148,15 @@ export const AuthContextProvider = ({
     setUsage({ remaining: data.remaining, count: data.count });
   };
 
+  const signOut = useCallback(() => {
+    localStorage.removeItem("token");
+    deleteCookie("token");
+    setUser(null);
+    setAuthStatus("unauthenticated");
+    toast.success("Signed out successfully");
+    router.push("/");
+  }, [router]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -157,6 +167,7 @@ export const AuthContextProvider = ({
         usage,
         signUp,
         signIn,
+        signOut,
         forgotPassword,
         fetchUsage,
       }}
